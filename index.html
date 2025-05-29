@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đào Thị Hồng Oanh 💖</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .container {
+      perspective: 1000px;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scene {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.1s linear;
+    }
+
+    .falling-name,
+    .falling-date {
+      position: absolute;
+      font-size: 26px;
+      animation: fall 10s linear infinite;
+      white-space: nowrap;
+    }
+
+    .falling-name {
+      color: #ff69b4;
+      text-shadow: 0 0 10px #ff69b4;
+    }
+
+    .falling-date {
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100px); opacity: 1; }
+      100% { transform: translateY(110vh); opacity: 0.2; }
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: blink 2s infinite ease-in-out;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="scene" id="scene"></div>
+  </div>
+
+  <script>
+    const scene = document.getElementById('scene');
+    const nameText = "Hồng Oanh 💖";
+    const dateText = " 20/06/2005";
+    const count = 25;
+
+    // Tên rơi
+    for (let i = 0; i < count; i++) {
+      const name = document.createElement("div");
+      name.classList.add("falling-name");
+      name.innerText = nameText;
+      name.style.left = Math.random() * window.innerWidth + "px";
+      name.style.top = -Math.random() * window.innerHeight + "px";
+      name.style.animationDuration = (6 + Math.random() * 5) + "s";
+      name.style.transform = `translateZ(${Math.random() * 600 - 300}px)`;
+      scene.appendChild(name);
+    }
+
+    // Ngày sinh rơi
+    for (let i = 0; i < count; i++) {
+      const date = document.createElement("div");
+      date.classList.add("falling-date");
+      date.innerText = dateText;
+      date.style.left = Math.random() * window.innerWidth + "px";
+      date.style.top = -Math.random() * window.innerHeight + "px";
+      date.style.animationDuration = (6 + Math.random() * 5) + "s";
+      date.style.transform = `translateZ(${Math.random() * 600 - 300}px)`;
+      scene.appendChild(date);
+    }
+
+    // Nền sao
+    for (let i = 0; i < 150; i++) {
+      const star = document.createElement("div");
+      star.classList.add("star");
+      star.style.top = Math.random() * window.innerHeight + "px";
+      star.style.left = Math.random() * window.innerWidth + "px";
+      star.style.animationDuration = (1 + Math.random() * 2) + "s";
+      document.body.appendChild(star);
+    }
+
+    // Xoay góc nhìn (chuột + mobile)
+    let rotateX = 0, rotateY = 0;
+    let lastX = 0, lastY = 0;
+
+    function rotateScene(x, y) {
+      rotateY += (x - lastX) * 0.3;
+      rotateX -= (y - lastY) * 0.3;
+      rotateX = Math.max(-45, Math.min(45, rotateX));
+      scene.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+      lastX = x;
+      lastY = y;
+    }
+
+    document.addEventListener("mousedown", e => {
+      lastX = e.clientX;
+      lastY = e.clientY;
+      const move = e => rotateScene(e.clientX, e.clientY);
+      const up = () => {
+        document.removeEventListener("mousemove", move);
+        document.removeEventListener("mouseup", up);
+      };
+      document.addEventListener("mousemove", move);
+      document.addEventListener("mouseup", up);
+    });
+
+    document.addEventListener("touchstart", e => {
+      const t = e.touches[0];
+      lastX = t.clientX;
+      lastY = t.clientY;
+    });
+    document.addEventListener("touchmove", e => {
+      const t = e.touches[0];
+      rotateScene(t.clientX, t.clientY);
+    });
+  </script>
+</body>
+</html>
