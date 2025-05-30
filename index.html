@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Đào Thị Hồng Oanh 💖</title>
+  <title>Hồng Oanh 💖</title>
   <style>
     html, body {
       margin: 0;
@@ -76,7 +76,8 @@
     const scene = document.getElementById('scene');
     const nameText = "Hồng Oanh 💖";
     const dateText = " 20/06/2005";
-    const count = 25;
+    const hiText = "我爱你 💖" 
+    const count = 70;
 
     // Tên rơi
     for (let i = 0; i < count; i++) {
@@ -90,6 +91,17 @@
       scene.appendChild(name);
     }
 
+
+    for (let i = 0; i < count; i++) {
+      const name = document.createElement("div");
+      name.classList.add("falling-name");
+      name.innerText = hiText;
+      name.style.left = Math.random() * window.innerWidth + "px";
+      name.style.top = -Math.random() * window.innerHeight + "px";
+      name.style.animationDuration = (6 + Math.random() * 5) + "s";
+      name.style.transform = `translateZ(${Math.random() * 600 - 300}px)`;
+      scene.appendChild(name);
+    }
     // Ngày sinh rơi
     for (let i = 0; i < count; i++) {
       const date = document.createElement("div");
